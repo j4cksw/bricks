@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameState {
 	NotStarted,
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		switch(currentState) {
 			case GameState.NotStarted:
+				ChangeText("Click To Begin");
 				if(Input.GetMouseButtonDown(0)) {
 					SwitchState(GameState.Playing);
 				}
@@ -55,6 +57,8 @@ public class GameManager : MonoBehaviour {
 				seconds = Mathf.FloorToInt(Timer-minutes * 60);
 				formattedTime = string.Format("{0:0}:{1:00}", minutes, seconds);
 
+				ChangeText("Time: "+formattedTime);
+
 				bool allBlocksDestroyed = false;
 
 				if(FindObjectOfType(typeof(Ball)) == null) {
@@ -64,10 +68,24 @@ public class GameManager : MonoBehaviour {
 					SwitchState(GameState.Completed);
 				}
 				break;
+			
+			case GameState.Failed:
+				print("Game failed!");
+				ChangeText("You Lose :(");
+				break;
+			
+			case GameState.Completed:
+				bool allBlocksDestroyedFinal = false;
+				Ball[] others = FindObjectsOfType(typeof(Ball)) as Ball[];
+
+				foreach(Ball other in others) {
+					Destroy(other.gameObject);
+				}
+				break;
 		}
 	}
 
-	void SwitchState(GameState state){
+	public void SwitchState(GameState state){
 		currentState = state;
 
 		switch( currentState ) {
@@ -84,5 +102,11 @@ public class GameManager : MonoBehaviour {
 				GetComponent<AudioSource>().PlayOneShot(failedSound);
 				break;
 		}
+	}
+
+	private void ChangeText(string text) {
+		GameObject canvas = GameObject.Find("Canvas");
+		Text textValue = canvas.GetComponentInChildren<Text>();
+		textValue.text = text;
 	}
 }
