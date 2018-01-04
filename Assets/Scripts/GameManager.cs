@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
 	private int minutes;
 	private int seconds;
 	public string formattedTime;
+
 	void Start () {
 		Time.timeScale = 1;
 
@@ -40,8 +41,7 @@ public class GameManager : MonoBehaviour {
 		SwitchState(GameState.NotStarted);
 
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		switch(currentState) {
 			case GameState.NotStarted:
@@ -68,6 +68,21 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void SwitchState(GameState state){
+		currentState = state;
 
+		switch( currentState ) {
+			default:
+			case GameState.NotStarted:
+				break;
+			case GameState.Playing:
+				GetComponent<AudioSource>().PlayOneShot(startSound);
+				break;
+			case GameState.Completed:
+				GetComponent<AudioSource>().PlayOneShot(startSound);
+				break;
+			case GameState.Failed:
+				GetComponent<AudioSource>().PlayOneShot(failedSound);
+				break;
+		}
 	}
 }
