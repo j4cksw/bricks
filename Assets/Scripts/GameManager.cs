@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour {
 				break;
 			
 			case GameState.Completed:
-				bool allBlocksDestroyedFinal = false;
+				//bool allBlocksDestroyedFinal = false;
 				Ball[] others = FindObjectsOfType(typeof(Ball)) as Ball[];
 
 				foreach(Ball other in others) {
