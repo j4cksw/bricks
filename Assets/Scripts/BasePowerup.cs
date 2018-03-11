@@ -13,7 +13,10 @@ public class BasePowerup : MonoBehaviour {
 	}
 	
 	IEnumerator OnTriggerEnter2D(Collider2D other) {
-		if( other.name == "Paddle") {
+
+		print("YYYYYYY" + other.name);
+
+		if( other.name == "paddle") {
 			OnPickup();
 
 			GetComponent<Collider2D>().enabled = false;

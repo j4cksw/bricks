@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
 				break;
 			
 			case GameState.Failed:
-				print("Game failed!");
+				//print("Game failed!");
 				ChangeText("You Lose :(");
 				break;
 			

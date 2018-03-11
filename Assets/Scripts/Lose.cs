@@ -3,31 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Lose : MonoBehaviour {
+public class Lose : MonoBehaviour
+{
 
-	private Ball ball;
-	private GameManager gameManager;
+    private Ball ball;
+    private GameManager gameManager;
 
-	IEnumerator Pause() {
-		print("Before Waiting 2 seconds");
+    IEnumerator Pause()
+    {
+        print("Before Waiting 2 seconds");
 
-		gameManager = GameObject.FindObjectOfType<GameManager>();
-		gameManager.SwitchState(GameState.Failed);
-		
-		yield return new WaitForSeconds(2);
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+        gameManager.SwitchState(GameState.Failed);
 
-		ball = GameObject.FindObjectOfType<Ball>();
-		ball.gameStarted = false;
+        yield return new WaitForSeconds(2);
 
-		//Application.LoadLevel(Application.loadedLevel);
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ball = GameObject.FindObjectOfType<Ball>();
+        ball.gameStarted = false;
 
-		print("After Waiting 2 seconds");
-	}
+        //Application.LoadLevel(Application.loadedLevel);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-	void OnTriggerEnter2D(Collider2D other) {
-		print("Lost triggered");
+        print("After Waiting 2 seconds");
+    }
 
-		StartCoroutine(Pause());
-	}
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.name == "ball")
+        {
+            print("Lost triggered");
+
+            StartCoroutine(Pause());
+        }
+
+    }
 }
